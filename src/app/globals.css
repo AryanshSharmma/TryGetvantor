@@ -1,0 +1,188 @@
+@import "tailwindcss";
+@config "../../tailwind.config.ts";
+
+/*
+  GetVantor identity: Cream, Forest, Lacquer red, Blush.
+  Red and green are true complements; blush and rose are the red softened so the
+  pair never turns festive. Cream carries the page, forest gives it weight, red
+  is used rarely and at full strength. Display type is Fraunces at light weights; text is DM Sans.
+*/
+:root {
+  --paper: #fbf2e6;     /* warm cream: the page */
+  --soft: #f4d3cc;      /* blush: calm, tonal */
+  --deep: #0f3a2d;      /* forest: weight */
+  --deep-2: #08241b;    /* forest, deeper: footer and shadow */
+  --hot: #cd2a3e;       /* lacquer red: energy, used in full-colour fields */
+  --hot-ink: #fff1e6;
+  --glow: #f6b0ba;      /* rose: the accent on forest */
+  --ink: #17211c;
+  --paper-mute: #5c5950;
+  --deep-mute: #a9c4b6;
+}
+
+.on-cream { --bg: var(--paper); --fg: var(--ink); --mute: var(--paper-mute); --rule: color-mix(in srgb, var(--ink) 15%, transparent); --acc: var(--deep); --btn-bg: var(--deep); --btn-fg: var(--paper); }
+.on-sage { --bg: var(--soft); --fg: var(--ink); --mute: color-mix(in srgb, var(--ink) 68%, var(--soft)); --rule: color-mix(in srgb, var(--ink) 18%, transparent); --acc: var(--deep); --btn-bg: var(--deep); --btn-fg: var(--paper); }
+.on-lagoon { --bg-img: linear-gradient(180deg, var(--deep), color-mix(in srgb, var(--deep) 82%, var(--deep-2))); --bg: var(--deep); --fg: var(--paper); --mute: var(--deep-mute); --rule: color-mix(in srgb, var(--paper) 22%, transparent); --acc: var(--glow); --btn-bg: var(--glow); --btn-fg: var(--ink); }
+.on-sun { --bg-img: linear-gradient(180deg, color-mix(in srgb, var(--hot) 92%, white), var(--hot) 40%, color-mix(in srgb, var(--hot) 84%, black)); --bg: var(--hot); --fg: var(--hot-ink); --mute: color-mix(in srgb, var(--hot-ink) 72%, var(--hot)); --rule: color-mix(in srgb, var(--hot-ink) 28%, transparent); --acc: var(--hot-ink); --btn-bg: var(--hot-ink); --btn-fg: var(--hot); }
+.surface { background: var(--bg-img, var(--bg)); background-color: var(--bg); color: var(--fg); }
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-mute: var(--mute);
+  --color-rule: var(--rule);
+  --color-acc: var(--acc);
+  --color-btn-bg: var(--btn-bg);
+  --color-btn-fg: var(--btn-fg);
+  --color-cream: var(--paper);
+  --color-lagoon: var(--deep);
+  --color-sun: var(--hot);
+  --color-hot-ink: var(--hot-ink);
+  --color-sage: var(--soft);
+  --color-ink: var(--ink);
+  --font-sans: var(--font-sans-face), system-ui, sans-serif;
+  --font-display: var(--font-display-face), Georgia, serif;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* GetVantor dual theme. The .dark class is the default; .light is applied when toggled. */
+:root,
+.light {
+  --canvas: 249 249 251;
+  --surface: 255 255 255;
+  --outline: 229 231 235;
+  --heading: 17 24 39;
+  --body: 75 85 99;
+  color-scheme: light;
+}
+.dark {
+  --canvas: 5 5 5;
+  --surface: 13 14 18;
+  --outline: 31 41 55;
+  --heading: 255 255 255;
+  --body: 156 163 175;
+  color-scheme: dark;
+}
+
+html { background: rgb(var(--canvas)); scroll-behavior: smooth; scroll-padding-top: 6rem; }
+body {
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  overflow-x: clip;
+  text-rendering: optimizeLegibility;
+}
+
+/* Rotating conic border used on the flagship pricing tier. */
+@property --border-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+.glow-border {
+  --border-angle: 0deg;
+  background:
+    linear-gradient(rgb(var(--surface)), rgb(var(--surface))) padding-box,
+    conic-gradient(from var(--border-angle), transparent 60%, #A855F7, #E11D48, transparent 100%) border-box;
+  border: 1px solid transparent;
+  animation: border-spin 6s linear infinite;
+}
+@keyframes border-spin {
+  to { --border-angle: 360deg; }
+}
+
+::selection { background: var(--hot); color: var(--hot-ink); }
+:focus-visible { outline: 2px solid var(--acc, var(--deep)); outline-offset: 4px; }
+
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
+
+/* ---------- Type ---------- */
+.display {
+  font-family: var(--font-display);
+  font-weight: 340;
+  font-variation-settings: "opsz" 96, "SOFT" 30, "WONK" 0;
+  letter-spacing: -0.022em;
+  line-height: 1.04;
+}
+.display em {
+  font-style: italic;
+  font-weight: 320;
+  font-variation-settings: "opsz" 96, "SOFT" 100, "WONK" 1;
+  color: var(--acc);
+}
+.h1 { font-size: clamp(2.45rem, 5.3vw, 5rem); }
+.h2 { font-size: clamp(2rem, 3.7vw, 3.5rem); }
+.h3 { font-size: clamp(1.35rem, 1.9vw, 1.7rem); line-height: 1.15; }
+.lede { font-size: clamp(1.0625rem, 1.3vw, 1.25rem); line-height: 1.6; color: var(--mute); }
+.label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.wrap { width: 100%; max-width: 84rem; margin-inline: auto; padding-inline: clamp(1.25rem, 3.4vw, 3rem); }
+.section { padding-block: clamp(4.5rem, 9vw, 8.5rem); }
+
+/* ---------- Motion ---------- */
+.rise { animation: rise 1s var(--ease-out-expo) both; animation-delay: var(--d, 0ms); }
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.9s ease, transform 1.1s var(--ease-out-expo); transition-delay: var(--d, 0ms); }
+.reveal[data-in="true"] { opacity: 1; transform: none; }
+
+.float { animation: float 9s ease-in-out infinite; animation-delay: var(--d, 0s); }
+@keyframes float { 50% { transform: translateY(-10px); } }
+
+.ul { background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat; transition: background-size 0.5s var(--ease-out-expo); }
+.ul:hover { background-size: 0 1px; background-position: 100% 100%; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rise, .float, .glow-border { animation: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+.marquee-track {
+  animation: marquee 32s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.spotlight-layer {
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgb(168 85 247 / 0.16), transparent 60%);
+}
+
+.orb {
+  animation: orb-drift 22s ease-in-out infinite alternate;
+}
+@keyframes orb-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(6vw, 4vh, 0) scale(1.15);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .orb {
+    animation: none;
+  }
+}
+
+:root {
+  --color-1: 0 100% 63%;
+  --color-2: 270 100% 63%;
+  --color-3: 210 100% 63%;
+  --color-4: 195 100% 63%;
+  --color-5: 90 100% 63%;
+}
